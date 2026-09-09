@@ -148,7 +148,7 @@ function guidedReport(signals: string[], topicFocus: string, notes: string): Rep
     strengths: [
       {
         concept: "A traceable chemistry response record is available",
-        evidence: "The examination paper and student response have been stored together for later comparison of methods, notation, working, and marking points. The system does not claim a mastered concept before visual verification.",
+        evidence: "The marked student paper has been stored with its marks, corrections, and working for later review. The system does not claim a mastered concept before visual verification.",
         confidence: "Pending question-level review",
       },
     ],
@@ -188,7 +188,7 @@ async function analyzeWithOpenAI(
   const content: Array<Record<string, unknown>> = [
     {
       type: "input_text",
-      text: `You are a senior secondary chemistry teacher and an experienced HKDSE examiner. Compare the original examination paper, the student's response, and the marking reference when supplied. Diagnose every answer using direct evidence.
+      text: `You are a senior secondary chemistry teacher and an experienced HKDSE examiner. Assess the marked student paper as the primary source. Use its awarded marks, ticks, crosses, corrections, teacher comments, and visible working as evidence. Compare it with the original paper and marking reference only when either is supplied.
 
 Student level: ${context.level}
 Examination: ${context.examTitle}
@@ -202,6 +202,7 @@ Rules:
 4. Prioritise remediation by prerequisite knowledge and mark impact. Include keywords, formulas, a specific practice action, and a measurable success check.
 5. Write the entire report in clear English. Keep chemical formulas, equations, symbols, and terminology exact.
 6. If a page or handwritten answer cannot be read reliably, state “Unable to read reliably” instead of guessing.
+7. If the original paper is unavailable, do not invent missing question wording or marking points. State the resulting confidence limitation wherever it affects a conclusion.
 
 Return valid JSON only, without Markdown:
 {"overview":string,"strengths":[{"concept":string,"evidence":string,"confidence":string}],"weaknesses":[{"questionRef":string,"classification":string,"knowledgePoint":string,"whyWrong":string,"evidence":string,"correction":string}],"remediation":[{"priority":number,"focus":string,"keywords":string[],"formulas":string[],"action":string,"successCheck":string}]}`,
@@ -241,11 +242,11 @@ export async function POST(request: Request) {
     const marking = form.get("marking");
 
     if (!studentName || !examTitle) return Response.json({ error: "Enter a student code and examination title." }, { status: 400 });
-    if (!isPdf(paper) || !isPdf(student)) return Response.json({ error: "The original paper and student response must be PDF files." }, { status: 400 });
+    if (!isPdf(student)) return Response.json({ error: "The marked student paper must be a PDF file." }, { status: 400 });
 
     const uploaded = [
-      { kind: "Original examination paper", keyKind: "paper", file: paper },
-      { kind: "Student response", keyKind: "student", file: student },
+      { kind: "Marked student paper", keyKind: "student", file: student },
+      ...(isPdf(paper) ? [{ kind: "Original examination paper", keyKind: "paper", file: paper }] : []),
       ...(isPdf(marking) ? [{ kind: "Marking reference", keyKind: "marking", file: marking }] : []),
     ];
     const totalBytes = uploaded.reduce((sum, item) => sum + item.file.size, 0);

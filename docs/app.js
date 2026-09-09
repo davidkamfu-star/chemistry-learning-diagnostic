@@ -153,11 +153,15 @@ function selectedSignals() {
 function buildGuidedReport(data) {
   const keys = data.signals.length ? data.signals : ["wording", "calculation"];
   const evidenceSuffix = data.notes ? ` Teacher observation: ${data.notes}` : " Add precise question references in the teacher observations to strengthen the evidence trail.";
+  const scoreText = data.score ? ` The marked score is ${data.score.awarded}/${data.score.total} (${data.score.percentage.toFixed(1)}%).` : "";
+  const sourceText = data.hasOriginal
+    ? "The original paper was also supplied for context."
+    : "The original paper was unavailable, so question wording and unshown marking points cannot be independently verified.";
   const strengths = data.strengths.length
     ? data.strengths.map((evidence, index) => ({ concept: `Verified strength ${index + 1}`, evidence, confidence: "Teacher-verified" }))
-    : [{ concept: "Evidence set prepared for review", evidence: "The paper and student response were selected together. No chemistry concept is labelled as mastered until a correct answer or valid working step is recorded by the teacher.", confidence: "Awaiting verified evidence" }];
+    : [{ concept: "Marked performance recorded", evidence: data.score ? `The marked paper records ${data.score.awarded} marks out of ${data.score.total}. Add correct question references above before labelling a chemistry concept as mastered.` : "The marked student paper was selected. Add correct question references above before labelling a chemistry concept as mastered.", confidence: "Awaiting concept evidence" }];
   return {
-    overview: `This preliminary diagnosis covers “${data.scope || "Whole paper"}” and is based on ${keys.length} teacher-selected error pattern${keys.length === 1 ? "" : "s"}. The PDFs stayed on this device and were not automatically inspected.${evidenceSuffix}`,
+    overview: `This marked-paper diagnosis covers “${data.scope || "Whole paper"}” and is based on ${keys.length} teacher-selected error pattern${keys.length === 1 ? "" : "s"}.${scoreText} ${sourceText} The PDFs stayed on this device and were not automatically inspected.${evidenceSuffix}`,
     strengths,
     weaknesses: keys.slice(0, 4).map((key) => ({
       questionRef: "Teacher flag",
@@ -228,13 +232,20 @@ $("#diagnosticForm").addEventListener("submit", (event) => {
     error.textContent = "Enter a student code and examination title.";
     return;
   }
-  if (!validatePdf(files.paper) || !validatePdf(files.student) || (files.marking && !validatePdf(files.marking))) {
-    error.textContent = "Select valid PDF files for the original paper and student response. Each file must be 15 MB or smaller.";
+  if (!validatePdf(files.student) || (files.paper && !validatePdf(files.paper)) || (files.marking && !validatePdf(files.marking))) {
+    error.textContent = "Select a valid marked student paper. Each selected PDF must be 15 MB or smaller.";
     return;
   }
   const total = Object.values(files).reduce((sum, file) => sum + (file ? file.size : 0), 0);
   if (total > 40 * 1024 * 1024) {
     error.textContent = "The combined PDF size must not exceed 40 MB.";
+    return;
+  }
+  const awarded = Number($("#marksAwarded").value);
+  const totalMarks = Number($("#totalMarks").value);
+  const hasAnyScore = $("#marksAwarded").value !== "" || $("#totalMarks").value !== "";
+  if (hasAnyScore && (!(awarded >= 0) || !(totalMarks > 0) || awarded > totalMarks)) {
+    error.textContent = "Enter both score fields and ensure marks awarded do not exceed total marks.";
     return;
   }
   const data = {
@@ -244,10 +255,13 @@ $("#diagnosticForm").addEventListener("submit", (event) => {
     scope: $("#topicFocus").value.trim(),
     notes: $("#teacherNotes").value.trim(),
     strengths: $("#strengthEvidence").value.split(/\n+/).map((item) => item.trim()).filter(Boolean),
-    signals: selectedSignals()
+    signals: selectedSignals(),
+    hasOriginal: Boolean(files.paper),
+    score: hasAnyScore ? { awarded, total: totalMarks, percentage: awarded / totalMarks * 100 } : null
   };
   const report = buildGuidedReport(data);
-  renderReport(report, { student, detail: `${data.level} · ${exam}`, status: "Teacher-guided" });
+  const scoreLabel = data.score ? ` · ${data.score.percentage.toFixed(1)}%` : "";
+  renderReport(report, { student, detail: `${data.level} · ${exam}${scoreLabel}`, status: "Marked-paper guided" });
   saveHistory({ id: crypto.randomUUID(), student, exam, level: data.level, createdAt: new Date().toISOString(), report });
   $("#reportPanel").scrollIntoView({ behavior: "smooth", block: "start" });
 });
@@ -255,8 +269,8 @@ $("#diagnosticForm").addEventListener("submit", (event) => {
 $("#diagnosticForm").addEventListener("reset", () => {
   window.setTimeout(() => {
     $$(".file-card").forEach((card) => card.classList.remove("has-file"));
-    $("#paperMeta").textContent = "Choose PDF · maximum 15 MB";
-    $("#studentMeta").textContent = "Choose PDF · maximum 15 MB";
+    $("#paperMeta").textContent = "Optional when unavailable";
+    $("#studentMeta").textContent = "Include marks, ticks, corrections and teacher comments";
     $("#markingMeta").textContent = "Optional PDF · maximum 15 MB";
     $("#formError").textContent = "";
   }, 0);

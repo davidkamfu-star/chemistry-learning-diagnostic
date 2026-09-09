@@ -10,6 +10,8 @@ An English learning-diagnostic system for chemistry teachers and students. It or
 
 The `docs/` directory contains a privacy-first static edition designed for GitHub Pages. Selected PDFs remain inside the visitor's browser and are not uploaded. The edition provides:
 
+- marked student paper as the only required PDF;
+- optional original paper and marking reference;
 - local PDF selection and size validation;
 - teacher-guided error classification;
 - English diagnostic-report generation;

@@ -207,8 +207,8 @@ export default function DiagnosticWorkspace() {
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!files.paper || !files.student) {
-      toast.error("Upload both the original paper and the student response.");
+    if (!files.student) {
+      toast.error("Upload the marked student paper.");
       return;
     }
     if (totalSize > 40 * 1024 * 1024) {
@@ -219,8 +219,8 @@ export default function DiagnosticWorkspace() {
     const form = new FormData(event.currentTarget);
     form.set("level", level);
     form.set("signals", JSON.stringify(selectedSignals));
-    form.set("paper", files.paper);
     form.set("student", files.student);
+    if (files.paper) form.set("paper", files.paper);
     if (files.marking) form.set("marking", files.marking);
 
     setBusy(true);
@@ -285,7 +285,7 @@ export default function DiagnosticWorkspace() {
         <section className="no-print overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_12px_40px_rgba(15,43,65,0.06)]">
           <div className="border-b border-slate-200 bg-[#0e2943] px-5 py-4 text-white">
             <div className="flex items-center gap-2"><FlaskConical className="size-5 text-[#7ee0cf]" /><h1 className="text-lg font-bold">Create a New Diagnosis</h1></div>
-            <p className="mt-1 text-sm leading-6 text-slate-300">Upload the paper and student response. A marking scheme improves question-level accuracy.</p>
+            <p className="mt-1 text-sm leading-6 text-slate-300">Upload the marked student paper. The original paper and marking scheme are optional supporting evidence.</p>
           </div>
 
           <form onSubmit={submit} className="space-y-5 p-5">
@@ -320,9 +320,9 @@ export default function DiagnosticWorkspace() {
 
             <div className="space-y-2.5">
               <div className="flex items-center justify-between"><Label>PDF evidence</Label><span className="text-xs text-slate-500">Up to 15 MB each</span></div>
-              <FileDrop kind="paper" title="Original examination paper" hint="Include every question, diagram, and page number" required file={files.paper} onFile={(file) => setFile("paper", file)} />
-              <FileDrop kind="student" title="Student response" hint="Use a clear scan and retain all working steps" required file={files.student} onFile={(file) => setFile("student", file)} />
-              <FileDrop kind="marking" title="Marking reference" hint="Marking scheme or teacher-marked script (recommended)" file={files.marking} onFile={(file) => setFile("marking", file)} />
+              <FileDrop kind="student" title="Marked student paper" hint="Include marks, ticks, corrections, comments, and all working steps" required file={files.student} onFile={(file) => setFile("student", file)} />
+              <FileDrop kind="paper" title="Original examination paper" hint="Optional when unavailable; improves question-context checking" file={files.paper} onFile={(file) => setFile("paper", file)} />
+              <FileDrop kind="marking" title="Marking reference" hint="Optional official scheme or teacher marking guide" file={files.marking} onFile={(file) => setFile("marking", file)} />
             </div>
 
             <div className="space-y-2.5">
@@ -422,7 +422,7 @@ export default function DiagnosticWorkspace() {
           </Tabs>
 
           <div className="border-t border-slate-200 bg-[#0e2943] px-5 py-3.5 text-xs leading-5 text-slate-300 sm:px-7">
-            <div className="flex items-start gap-2"><Atom className="mt-0.5 size-4 shrink-0 text-[#7ee0cf]" /><p>Use this report together with the original paper, the student's complete working, and the marking scheme. A teacher may adjust priorities using classroom evidence.</p></div>
+            <div className="flex items-start gap-2"><Atom className="mt-0.5 size-4 shrink-0 text-[#7ee0cf]" /><p>This report may be generated from the marked student paper alone. When the original paper is unavailable, treat unverified question wording and marking points with lower confidence.</p></div>
           </div>
         </section>
       </div>

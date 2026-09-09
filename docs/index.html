@@ -22,7 +22,7 @@
 
   <div class="privacy-note no-print" role="note">
     <strong>Your PDFs stay on this device.</strong>
-    This public edition does not upload or automatically read files. It creates a preliminary English report from teacher-selected evidence and stores report history only in this browser.
+    This public edition uses the marked student paper as the primary evidence. It does not upload or automatically read files; the report is generated from the score, teacher markings, and evidence you record below.
   </div>
 
   <main class="workspace">
@@ -58,20 +58,28 @@
           <label>Analysis scope
             <input id="topicFocus" maxlength="120" placeholder="Whole paper or selected questions/topics">
           </label>
+          <div class="form-grid">
+            <label>Marks awarded
+              <input id="marksAwarded" type="number" min="0" step="0.5" placeholder="e.g. 42">
+            </label>
+            <label>Total marks
+              <input id="totalMarks" type="number" min="0.5" step="0.5" placeholder="e.g. 60">
+            </label>
+          </div>
         </fieldset>
 
         <fieldset>
-          <legend><span>2</span> Select local PDF evidence</legend>
+          <legend><span>2</span> Select the marked paper</legend>
           <div class="file-grid">
-            <label class="file-card" data-file-card="paper">
-              <span class="file-icon">01</span>
-              <span><strong>Original paper *</strong><small id="paperMeta">Choose PDF · maximum 15 MB</small></span>
-              <input id="paperFile" type="file" accept="application/pdf,.pdf" required>
-            </label>
             <label class="file-card" data-file-card="student">
-              <span class="file-icon">02</span>
-              <span><strong>Student response *</strong><small id="studentMeta">Choose PDF · maximum 15 MB</small></span>
+              <span class="file-icon">01</span>
+              <span><strong>Marked student paper *</strong><small id="studentMeta">Include marks, ticks, corrections and teacher comments</small></span>
               <input id="studentFile" type="file" accept="application/pdf,.pdf" required>
+            </label>
+            <label class="file-card" data-file-card="paper">
+              <span class="file-icon">02</span>
+              <span><strong>Original paper</strong><small id="paperMeta">Optional when unavailable</small></span>
+              <input id="paperFile" type="file" accept="application/pdf,.pdf">
             </label>
             <label class="file-card" data-file-card="marking">
               <span class="file-icon">03</span>
@@ -83,7 +91,7 @@
 
         <fieldset>
           <legend><span>3</span> Teacher evidence</legend>
-          <p class="field-help">Select only patterns supported by the student’s work.</p>
+          <p class="field-help">Use the marks, ticks, crosses, corrections, and comments visible on the marked paper.</p>
           <div class="signal-grid" id="signalGrid">
             <label><input type="checkbox" value="equation"><span><strong>Equations</strong><small>Balancing, states or conditions</small></span></label>
             <label><input type="checkbox" value="oxidation"><span><strong>Redox reasoning</strong><small>Oxidation numbers or electrons</small></span></label>
@@ -92,11 +100,11 @@
             <label><input type="checkbox" value="wording"><span><strong>Scientific wording</strong><small>Missing explanation keywords</small></span></label>
             <label><input type="checkbox" value="reading"><span><strong>Question reading</strong><small>Commands, copied data or scope</small></span></label>
           </div>
-          <label>Demonstrated strengths
-            <textarea id="strengthEvidence" rows="3" placeholder="One verified strength per line, e.g. Correctly identifies the conjugate acid–base pairs in Q2."></textarea>
+          <label>Evidence of demonstrated strengths
+            <textarea id="strengthEvidence" rows="3" placeholder="One marked-paper observation per line, e.g. Full marks in Q2; conjugate acid–base pairs identified correctly."></textarea>
           </label>
           <label>Teacher observations
-            <textarea id="teacherNotes" rows="3" placeholder="Record question references, observed working, repeated errors, or other evidence."></textarea>
+            <textarea id="teacherNotes" rows="3" placeholder="Record question references, marks awarded, corrections, repeated errors, or teacher comments shown on the paper."></textarea>
           </label>
         </fieldset>
 
@@ -165,7 +173,7 @@
           <div id="remediationList" class="stack-list"></div>
         </section>
 
-        <p class="report-footnote">Preliminary teacher-guided report. Selected PDFs remain local and are not automatically inspected in this public edition.</p>
+        <p class="report-footnote">Marked-paper teacher-guided report. The original paper is optional. Selected PDFs remain local and are not automatically inspected in this public edition.</p>
       </div>
     </section>
   </main>
