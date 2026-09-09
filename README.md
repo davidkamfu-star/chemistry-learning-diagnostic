@@ -17,6 +17,9 @@ The `docs/` directory contains a privacy-first static edition designed for GitHu
 - English / Traditional Chinese interface and diagnostic-report generation;
 - question-specific wrong-answer evidence: question reference, primary cause, exact knowledge point, and marked-paper evidence;
 - expanded reports with mastery judgement, demonstrated skill, assessment impact, observed-versus-expected response, root-cause reasoning, correction steps, diagnostic checks, prerequisite knowledge, formula conditions, three-stage practice, spaced review, and measurable success criteria;
+- automatic in-browser text extraction for text-based uploaded PDFs (files remain local);
+- automatic mapping to all HKDSE Chemistry Topics I–XV, with ranked subtopics, revision keywords, formulas/rules, targeted practice, and measurable topic success checks;
+- an explicit OCR/visual-model warning when a scan, handwritten answer, marker symbol, or diagram has no selectable PDF text;
 - browser-local report history; and
 - print or Save as PDF output.
 

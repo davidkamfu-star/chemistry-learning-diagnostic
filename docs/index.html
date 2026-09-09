@@ -28,7 +28,7 @@
 
   <div class="privacy-note no-print" role="note">
     <strong data-i18n="privacyLead">Your PDFs stay on this device.</strong>
-    <span data-i18n="privacyText">This public edition uses the marked student paper as the primary evidence. It does not upload or automatically read files; the report is generated from the score, teacher markings, and evidence you record below.</span>
+    <span data-i18n="privacyText">This public edition reads selectable PDF text locally in your browser. Files are not uploaded. Scanned images and handwriting require OCR or visual-model review.</span>
   </div>
 
   <main class="workspace">
@@ -92,6 +92,14 @@
               <span><strong data-i18n="markingReference">Marking reference</strong><small id="markingMeta" data-i18n="optionalPdf">Optional PDF · maximum 15 MB</small></span>
               <input id="markingFile" type="file" accept="application/pdf,.pdf">
             </label>
+          </div>
+          <div class="auto-read-panel" id="autoReadPanel" aria-live="polite">
+            <div class="auto-read-heading">
+              <strong data-i18n="autoReadTitle">Automatic PDF reading</strong>
+              <span class="read-status" id="autoReadStatus" data-i18n="autoReadWaiting">Waiting for a PDF</span>
+            </div>
+            <p data-i18n="autoReadHelp">Text-based PDFs are read automatically on this device. Detected DSE topics will be added to the report.</p>
+            <div id="readResults" class="read-results"></div>
           </div>
         </fieldset>
 
@@ -183,6 +191,15 @@
           <div id="weaknessesList" class="stack-list"></div>
         </section>
 
+        <section class="report-section dse-section">
+          <div class="section-heading">
+            <span class="section-icon">DSE</span>
+            <div><p data-i18n="dseMapping">Curriculum mapping</p><h3 data-i18n="dseTopicsTitle">HKDSE topics to strengthen</h3></div>
+          </div>
+          <p class="section-guidance" data-i18n="dseTopicsGuidance">Detected topics are ranked using the marked-paper text and recorded error evidence.</p>
+          <div id="dseTopicsList" class="stack-list"></div>
+        </section>
+
         <section class="report-section remedy-section">
           <div class="section-heading">
             <span class="section-icon">↗</span>
@@ -192,7 +209,7 @@
           <div id="remediationList" class="stack-list"></div>
         </section>
 
-        <p class="report-footnote" data-i18n="footnote">Marked-paper teacher-guided report. The original paper is optional. Selected PDFs remain local and are not automatically inspected in this public edition.</p>
+        <p class="report-footnote" data-i18n="footnote">Selectable PDF text is analysed locally. Scanned images, handwriting, ticks and diagrams that are not encoded as text cannot be interpreted reliably without OCR or a visual model.</p>
       </div>
     </section>
   </main>
