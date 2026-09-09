@@ -16,6 +16,7 @@ The `docs/` directory contains a privacy-first static edition designed for GitHu
 - teacher-guided error classification;
 - English / Traditional Chinese interface and diagnostic-report generation;
 - question-specific wrong-answer evidence: question reference, primary cause, exact knowledge point, and marked-paper evidence;
+- expanded reports with mastery judgement, demonstrated skill, assessment impact, observed-versus-expected response, root-cause reasoning, correction steps, diagnostic checks, prerequisite knowledge, formula conditions, three-stage practice, spaced review, and measurable success criteria;
 - browser-local report history; and
 - print or Save as PDF output.
 

@@ -101,7 +101,7 @@
           <div class="subsection-heading">
             <div>
               <strong data-i18n="wrongAnswers">Wrong-answer evidence</strong>
-              <small data-i18n="wrongAnswersHelp">Add one entry for each wrong or incomplete answer. This is the main evidence for Part 2.</small>
+              <small data-i18n="wrongAnswersHelp">Add one entry for each wrong or incomplete answer, including the marked response and expected correction.</small>
             </div>
             <button type="button" class="secondary-button compact" id="addErrorButton" data-i18n="addWrongAnswer">+ Add wrong answer</button>
           </div>
@@ -116,7 +116,7 @@
             <label><input type="checkbox" value="reading"><span><strong data-i18n="sigReading">Question reading</strong><small data-i18n="sigReadingHint">Commands, copied data or scope</small></span></label>
           </div>
           <label><span data-i18n="strengthEvidence">Evidence of demonstrated strengths</span>
-            <textarea id="strengthEvidence" rows="3" placeholder="Use: question | concept | evidence" data-i18n-placeholder="strengthPlaceholder"></textarea>
+            <textarea id="strengthEvidence" rows="4" placeholder="Use: question | concept | evidence" data-i18n-placeholder="strengthPlaceholder"></textarea>
           </label>
           <label><span data-i18n="teacherObservations">Teacher observations</span>
             <textarea id="teacherNotes" rows="3" placeholder="Record overall patterns or limitations shown on the marked paper." data-i18n-placeholder="notesPlaceholder"></textarea>
@@ -162,6 +162,7 @@
         <section class="overview-card">
           <p class="section-number" data-i18n="diagnosticOverview">Diagnostic overview</p>
           <p id="overviewText"></p>
+          <div class="summary-metrics" id="summaryMetrics"></div>
         </section>
 
         <section class="report-section strengths-section">
@@ -169,6 +170,7 @@
             <span class="section-icon">✓</span>
             <div><p data-i18n="part1">Part 1</p><h3 data-i18n="strengthsAnalysis">Strengths analysis</h3></div>
           </div>
+          <p class="section-guidance" data-i18n="strengthsGuidance">Concepts supported by correct marked-paper evidence, with the demonstrated skill and next extension.</p>
           <div id="strengthsList" class="stack-list"></div>
         </section>
 
@@ -177,6 +179,7 @@
             <span class="section-icon">!</span>
             <div><p data-i18n="part2">Part 2 · Priority</p><h3 data-i18n="weaknessDetection">Weakness detection</h3></div>
           </div>
+          <p class="section-guidance" data-i18n="weaknessGuidance">Each item separates the observed error from its likely root cause and gives a step-by-step correction.</p>
           <div id="weaknessesList" class="stack-list"></div>
         </section>
 
@@ -185,6 +188,7 @@
             <span class="section-icon">↗</span>
             <div><p data-i18n="part3">Part 3</p><h3 data-i18n="remediationPathway">Remediation pathway</h3></div>
           </div>
+          <p class="section-guidance" data-i18n="remediationGuidance">Prioritised revision from prerequisite recall to guided practice and exam transfer.</p>
           <div id="remediationList" class="stack-list"></div>
         </section>
 
