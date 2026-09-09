@@ -13,112 +13,127 @@
     <div class="brand">
       <span class="brand-mark" aria-hidden="true">⚛</span>
       <div>
-        <h1>Chemistry Learning Diagnostic Centre</h1>
-        <p>Find the cause of lost marks. Build the next remediation path.</p>
+        <h1 data-i18n="siteTitle">Chemistry Learning Diagnostic Centre</h1>
+        <p data-i18n="tagline">Find the cause of lost marks. Build the next remediation path.</p>
       </div>
     </div>
-    <span class="privacy-chip"><span></span> Browser-only privacy mode</span>
+    <div class="topbar-actions">
+      <div class="language-switch" role="group" aria-label="Language">
+        <button type="button" data-language="en" class="active">English</button>
+        <button type="button" data-language="zh-Hant">繁體中文</button>
+      </div>
+      <span class="privacy-chip"><span></span> <b data-i18n="privacyMode">Browser-only privacy mode</b></span>
+    </div>
   </header>
 
   <div class="privacy-note no-print" role="note">
-    <strong>Your PDFs stay on this device.</strong>
-    This public edition uses the marked student paper as the primary evidence. It does not upload or automatically read files; the report is generated from the score, teacher markings, and evidence you record below.
+    <strong data-i18n="privacyLead">Your PDFs stay on this device.</strong>
+    <span data-i18n="privacyText">This public edition uses the marked student paper as the primary evidence. It does not upload or automatically read files; the report is generated from the score, teacher markings, and evidence you record below.</span>
   </div>
 
   <main class="workspace">
     <section class="panel intake no-print" aria-labelledby="case-heading">
       <div class="panel-heading">
         <div>
-          <p class="eyebrow">New diagnostic</p>
-          <h2 id="case-heading">Build an evidence-led report</h2>
+          <p class="eyebrow" data-i18n="newDiagnostic">New diagnostic</p>
+          <h2 id="case-heading" data-i18n="buildReport">Build an evidence-led report</h2>
         </div>
-        <button type="button" class="text-button" id="sampleButton">Load sample</button>
+        <button type="button" class="text-button" id="sampleButton" data-i18n="loadSample">Load sample</button>
       </div>
 
       <form id="diagnosticForm" novalidate>
         <fieldset>
-          <legend><span>1</span> Case details</legend>
+          <legend><span>1</span> <b data-i18n="caseDetails">Case details</b></legend>
           <div class="form-grid">
-            <label>Student code <em>required</em>
-              <input id="studentCode" maxlength="60" placeholder="e.g. S4-014" required>
+            <label><span data-i18n="studentCode">Student code</span> <em data-i18n="required">required</em>
+              <input id="studentCode" maxlength="60" placeholder="e.g. S4-014" data-i18n-placeholder="studentCodePlaceholder" required>
             </label>
-            <label>Student level
+            <label><span data-i18n="studentLevel">Student level</span>
               <select id="studentLevel">
-                <option>HKDSE</option>
-                <option>Secondary 6</option>
-                <option>Secondary 5</option>
-                <option>Secondary 4</option>
-                <option>Secondary 1–3 Science</option>
+                <option value="HKDSE" data-i18n="levelHkdse">HKDSE</option>
+                <option value="Secondary 6" data-i18n="levelS6">Secondary 6</option>
+                <option value="Secondary 5" data-i18n="levelS5">Secondary 5</option>
+                <option value="Secondary 4" data-i18n="levelS4">Secondary 4</option>
+                <option value="Secondary 1–3 Science" data-i18n="levelJunior">Secondary 1–3 Science</option>
               </select>
             </label>
           </div>
-          <label>Examination title <em>required</em>
-            <input id="examTitle" maxlength="100" placeholder="e.g. Chemical Equilibrium Test" required>
+          <label><span data-i18n="examTitle">Examination title</span> <em data-i18n="required">required</em>
+            <input id="examTitle" maxlength="100" placeholder="e.g. Chemical Equilibrium Test" data-i18n-placeholder="examPlaceholder" required>
           </label>
-          <label>Analysis scope
-            <input id="topicFocus" maxlength="120" placeholder="Whole paper or selected questions/topics">
+          <label><span data-i18n="analysisScope">Analysis scope</span>
+            <input id="topicFocus" maxlength="120" placeholder="Whole paper or selected questions/topics" data-i18n-placeholder="scopePlaceholder">
           </label>
           <div class="form-grid">
-            <label>Marks awarded
+            <label><span data-i18n="marksAwarded">Marks awarded</span>
               <input id="marksAwarded" type="number" min="0" step="0.5" placeholder="e.g. 42">
             </label>
-            <label>Total marks
+            <label><span data-i18n="totalMarks">Total marks</span>
               <input id="totalMarks" type="number" min="0.5" step="0.5" placeholder="e.g. 60">
             </label>
           </div>
         </fieldset>
 
         <fieldset>
-          <legend><span>2</span> Select the marked paper</legend>
+          <legend><span>2</span> <b data-i18n="selectPaper">Select the marked paper</b></legend>
           <div class="file-grid">
             <label class="file-card" data-file-card="student">
               <span class="file-icon">01</span>
-              <span><strong>Marked student paper *</strong><small id="studentMeta">Include marks, ticks, corrections and teacher comments</small></span>
+              <span><strong data-i18n="markedPaper">Marked student paper *</strong><small id="studentMeta" data-i18n="markedPaperHint">Include marks, ticks, corrections and teacher comments</small></span>
               <input id="studentFile" type="file" accept="application/pdf,.pdf" required>
             </label>
             <label class="file-card" data-file-card="paper">
               <span class="file-icon">02</span>
-              <span><strong>Original paper</strong><small id="paperMeta">Optional when unavailable</small></span>
+              <span><strong data-i18n="originalPaper">Original paper</strong><small id="paperMeta" data-i18n="optionalUnavailable">Optional when unavailable</small></span>
               <input id="paperFile" type="file" accept="application/pdf,.pdf">
             </label>
             <label class="file-card" data-file-card="marking">
               <span class="file-icon">03</span>
-              <span><strong>Marking reference</strong><small id="markingMeta">Optional PDF · maximum 15 MB</small></span>
+              <span><strong data-i18n="markingReference">Marking reference</strong><small id="markingMeta" data-i18n="optionalPdf">Optional PDF · maximum 15 MB</small></span>
               <input id="markingFile" type="file" accept="application/pdf,.pdf">
             </label>
           </div>
         </fieldset>
 
         <fieldset>
-          <legend><span>3</span> Teacher evidence</legend>
-          <p class="field-help">Use the marks, ticks, crosses, corrections, and comments visible on the marked paper.</p>
-          <div class="signal-grid" id="signalGrid">
-            <label><input type="checkbox" value="equation"><span><strong>Equations</strong><small>Balancing, states or conditions</small></span></label>
-            <label><input type="checkbox" value="oxidation"><span><strong>Redox reasoning</strong><small>Oxidation numbers or electrons</small></span></label>
-            <label><input type="checkbox" value="equilibrium"><span><strong>Equilibrium</strong><small>Kc expressions or ICE tables</small></span></label>
-            <label><input type="checkbox" value="calculation"><span><strong>Calculations</strong><small>Logic, units or significant figures</small></span></label>
-            <label><input type="checkbox" value="wording"><span><strong>Scientific wording</strong><small>Missing explanation keywords</small></span></label>
-            <label><input type="checkbox" value="reading"><span><strong>Question reading</strong><small>Commands, copied data or scope</small></span></label>
+          <legend><span>3</span> <b data-i18n="teacherEvidence">Teacher evidence</b></legend>
+          <p class="field-help" data-i18n="evidenceHelp">Use the marks, ticks, crosses, corrections, and comments visible on the marked paper.</p>
+          <div class="subsection-heading">
+            <div>
+              <strong data-i18n="wrongAnswers">Wrong-answer evidence</strong>
+              <small data-i18n="wrongAnswersHelp">Add one entry for each wrong or incomplete answer. This is the main evidence for Part 2.</small>
+            </div>
+            <button type="button" class="secondary-button compact" id="addErrorButton" data-i18n="addWrongAnswer">+ Add wrong answer</button>
           </div>
-          <label>Evidence of demonstrated strengths
-            <textarea id="strengthEvidence" rows="3" placeholder="One marked-paper observation per line, e.g. Full marks in Q2; conjugate acid–base pairs identified correctly."></textarea>
+          <div id="errorEntries" class="error-entries"></div>
+          <p class="field-help pattern-help" data-i18n="patternsHelp">Optional fallback: select recurring patterns when question-specific evidence is limited.</p>
+          <div class="signal-grid" id="signalGrid">
+            <label><input type="checkbox" value="equation"><span><strong data-i18n="sigEquation">Equations</strong><small data-i18n="sigEquationHint">Balancing, states or conditions</small></span></label>
+            <label><input type="checkbox" value="oxidation"><span><strong data-i18n="sigOxidation">Redox reasoning</strong><small data-i18n="sigOxidationHint">Oxidation numbers or electrons</small></span></label>
+            <label><input type="checkbox" value="equilibrium"><span><strong data-i18n="sigEquilibrium">Equilibrium</strong><small data-i18n="sigEquilibriumHint">Kc expressions or ICE tables</small></span></label>
+            <label><input type="checkbox" value="calculation"><span><strong data-i18n="sigCalculation">Calculations</strong><small data-i18n="sigCalculationHint">Logic, units or significant figures</small></span></label>
+            <label><input type="checkbox" value="wording"><span><strong data-i18n="sigWording">Scientific wording</strong><small data-i18n="sigWordingHint">Missing explanation keywords</small></span></label>
+            <label><input type="checkbox" value="reading"><span><strong data-i18n="sigReading">Question reading</strong><small data-i18n="sigReadingHint">Commands, copied data or scope</small></span></label>
+          </div>
+          <label><span data-i18n="strengthEvidence">Evidence of demonstrated strengths</span>
+            <textarea id="strengthEvidence" rows="3" placeholder="Use: question | concept | evidence" data-i18n-placeholder="strengthPlaceholder"></textarea>
           </label>
-          <label>Teacher observations
-            <textarea id="teacherNotes" rows="3" placeholder="Record question references, marks awarded, corrections, repeated errors, or teacher comments shown on the paper."></textarea>
+          <label><span data-i18n="teacherObservations">Teacher observations</span>
+            <textarea id="teacherNotes" rows="3" placeholder="Record overall patterns or limitations shown on the marked paper." data-i18n-placeholder="notesPlaceholder"></textarea>
           </label>
         </fieldset>
 
         <div class="form-actions">
-          <button class="primary-button" type="submit">Generate diagnostic report <span>→</span></button>
-          <button class="secondary-button" type="reset">Clear</button>
+          <button class="primary-button" type="submit"><b data-i18n="generateReport">Generate diagnostic report</b> <span>→</span></button>
+          <button class="secondary-button" type="reset" data-i18n="clear">Clear</button>
         </div>
         <p class="form-error" id="formError" role="alert" aria-live="polite"></p>
       </form>
 
       <section class="history" aria-labelledby="history-heading">
         <div class="history-title">
-          <h3 id="history-heading">Reports on this device</h3>
-          <button type="button" class="text-button danger" id="clearHistoryButton">Clear history</button>
+          <h3 id="history-heading" data-i18n="reportsOnDevice">Reports on this device</h3>
+          <button type="button" class="text-button danger" id="clearHistoryButton" data-i18n="clearHistory">Clear history</button>
         </div>
         <div id="historyList" class="history-list"></div>
       </section>
@@ -127,32 +142,32 @@
     <section class="panel report" id="reportPanel" aria-labelledby="report-heading">
       <div class="report-toolbar no-print">
         <div>
-          <p class="eyebrow">Learning diagnostic report</p>
+          <p class="eyebrow" data-i18n="learningReport">Learning diagnostic report</p>
           <h2 id="report-heading">Sample Student</h2>
           <p id="reportMeta">HKDSE · Demonstration report</p>
         </div>
         <div class="toolbar-actions">
           <span class="status-chip" id="reportStatus">Demonstration</span>
-          <button class="secondary-button" type="button" id="printButton">Print / Save PDF</button>
+          <button class="secondary-button" type="button" id="printButton" data-i18n="printSave">Print / Save PDF</button>
         </div>
       </div>
 
       <div class="report-body">
         <div class="report-title print-only">
-          <p>Chemistry Learning Diagnostic Centre</p>
+          <p data-i18n="siteTitle">Chemistry Learning Diagnostic Centre</p>
           <h1 id="printStudent">Sample Student</h1>
           <p id="printMeta">HKDSE · Demonstration report</p>
         </div>
 
         <section class="overview-card">
-          <p class="section-number">Diagnostic overview</p>
+          <p class="section-number" data-i18n="diagnosticOverview">Diagnostic overview</p>
           <p id="overviewText"></p>
         </section>
 
         <section class="report-section strengths-section">
           <div class="section-heading">
             <span class="section-icon">✓</span>
-            <div><p>Part 1</p><h3>Strengths analysis</h3></div>
+            <div><p data-i18n="part1">Part 1</p><h3 data-i18n="strengthsAnalysis">Strengths analysis</h3></div>
           </div>
           <div id="strengthsList" class="stack-list"></div>
         </section>
@@ -160,7 +175,7 @@
         <section class="report-section weaknesses-section">
           <div class="section-heading">
             <span class="section-icon">!</span>
-            <div><p>Part 2 · Priority</p><h3>Weakness detection</h3></div>
+            <div><p data-i18n="part2">Part 2 · Priority</p><h3 data-i18n="weaknessDetection">Weakness detection</h3></div>
           </div>
           <div id="weaknessesList" class="stack-list"></div>
         </section>
@@ -168,17 +183,17 @@
         <section class="report-section remedy-section">
           <div class="section-heading">
             <span class="section-icon">↗</span>
-            <div><p>Part 3</p><h3>Remediation pathway</h3></div>
+            <div><p data-i18n="part3">Part 3</p><h3 data-i18n="remediationPathway">Remediation pathway</h3></div>
           </div>
           <div id="remediationList" class="stack-list"></div>
         </section>
 
-        <p class="report-footnote">Marked-paper teacher-guided report. The original paper is optional. Selected PDFs remain local and are not automatically inspected in this public edition.</p>
+        <p class="report-footnote" data-i18n="footnote">Marked-paper teacher-guided report. The original paper is optional. Selected PDFs remain local and are not automatically inspected in this public edition.</p>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer no-print">Chemistry Learning Diagnostic Centre · Privacy-first public edition</footer>
+  <footer class="site-footer no-print" data-i18n="footer">Chemistry Learning Diagnostic Centre · Privacy-first public edition</footer>
   <script src="./app.js" defer></script>
 </body>
 </html>

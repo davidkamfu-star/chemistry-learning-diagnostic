@@ -1,6 +1,6 @@
 # Chemistry Learning Diagnostic Centre
 
-An English learning-diagnostic system for chemistry teachers and students. It organises exam evidence into:
+An English and Traditional Chinese learning-diagnostic system for chemistry teachers and students. It organises marked-paper evidence into:
 
 1. strengths supported by correct work;
 2. weakness detection with likely causes and exact knowledge points; and
@@ -14,7 +14,8 @@ The `docs/` directory contains a privacy-first static edition designed for GitHu
 - optional original paper and marking reference;
 - local PDF selection and size validation;
 - teacher-guided error classification;
-- English diagnostic-report generation;
+- English / Traditional Chinese interface and diagnostic-report generation;
+- question-specific wrong-answer evidence: question reference, primary cause, exact knowledge point, and marked-paper evidence;
 - browser-local report history; and
 - print or Save as PDF output.
 
