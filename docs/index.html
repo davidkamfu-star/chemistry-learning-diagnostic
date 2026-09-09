@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A privacy-first, teacher-guided chemistry learning diagnostic report builder.">
+  <meta name="theme-color" content="#0b2b40">
+  <title>Chemistry Learning Diagnostic Centre</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar no-print">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">⚛</span>
+      <div>
+        <h1>Chemistry Learning Diagnostic Centre</h1>
+        <p>Find the cause of lost marks. Build the next remediation path.</p>
+      </div>
+    </div>
+    <span class="privacy-chip"><span></span> Browser-only privacy mode</span>
+  </header>
+
+  <div class="privacy-note no-print" role="note">
+    <strong>Your PDFs stay on this device.</strong>
+    This public edition does not upload or automatically read files. It creates a preliminary English report from teacher-selected evidence and stores report history only in this browser.
+  </div>
+
+  <main class="workspace">
+    <section class="panel intake no-print" aria-labelledby="case-heading">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">New diagnostic</p>
+          <h2 id="case-heading">Build an evidence-led report</h2>
+        </div>
+        <button type="button" class="text-button" id="sampleButton">Load sample</button>
+      </div>
+
+      <form id="diagnosticForm" novalidate>
+        <fieldset>
+          <legend><span>1</span> Case details</legend>
+          <div class="form-grid">
+            <label>Student code <em>required</em>
+              <input id="studentCode" maxlength="60" placeholder="e.g. S4-014" required>
+            </label>
+            <label>Student level
+              <select id="studentLevel">
+                <option>HKDSE</option>
+                <option>Secondary 6</option>
+                <option>Secondary 5</option>
+                <option>Secondary 4</option>
+                <option>Secondary 1–3 Science</option>
+              </select>
+            </label>
+          </div>
+          <label>Examination title <em>required</em>
+            <input id="examTitle" maxlength="100" placeholder="e.g. Chemical Equilibrium Test" required>
+          </label>
+          <label>Analysis scope
+            <input id="topicFocus" maxlength="120" placeholder="Whole paper or selected questions/topics">
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend><span>2</span> Select local PDF evidence</legend>
+          <div class="file-grid">
+            <label class="file-card" data-file-card="paper">
+              <span class="file-icon">01</span>
+              <span><strong>Original paper *</strong><small id="paperMeta">Choose PDF · maximum 15 MB</small></span>
+              <input id="paperFile" type="file" accept="application/pdf,.pdf" required>
+            </label>
+            <label class="file-card" data-file-card="student">
+              <span class="file-icon">02</span>
+              <span><strong>Student response *</strong><small id="studentMeta">Choose PDF · maximum 15 MB</small></span>
+              <input id="studentFile" type="file" accept="application/pdf,.pdf" required>
+            </label>
+            <label class="file-card" data-file-card="marking">
+              <span class="file-icon">03</span>
+              <span><strong>Marking reference</strong><small id="markingMeta">Optional PDF · maximum 15 MB</small></span>
+              <input id="markingFile" type="file" accept="application/pdf,.pdf">
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend><span>3</span> Teacher evidence</legend>
+          <p class="field-help">Select only patterns supported by the student’s work.</p>
+          <div class="signal-grid" id="signalGrid">
+            <label><input type="checkbox" value="equation"><span><strong>Equations</strong><small>Balancing, states or conditions</small></span></label>
+            <label><input type="checkbox" value="oxidation"><span><strong>Redox reasoning</strong><small>Oxidation numbers or electrons</small></span></label>
+            <label><input type="checkbox" value="equilibrium"><span><strong>Equilibrium</strong><small>Kc expressions or ICE tables</small></span></label>
+            <label><input type="checkbox" value="calculation"><span><strong>Calculations</strong><small>Logic, units or significant figures</small></span></label>
+            <label><input type="checkbox" value="wording"><span><strong>Scientific wording</strong><small>Missing explanation keywords</small></span></label>
+            <label><input type="checkbox" value="reading"><span><strong>Question reading</strong><small>Commands, copied data or scope</small></span></label>
+          </div>
+          <label>Demonstrated strengths
+            <textarea id="strengthEvidence" rows="3" placeholder="One verified strength per line, e.g. Correctly identifies the conjugate acid–base pairs in Q2."></textarea>
+          </label>
+          <label>Teacher observations
+            <textarea id="teacherNotes" rows="3" placeholder="Record question references, observed working, repeated errors, or other evidence."></textarea>
+          </label>
+        </fieldset>
+
+        <div class="form-actions">
+          <button class="primary-button" type="submit">Generate diagnostic report <span>→</span></button>
+          <button class="secondary-button" type="reset">Clear</button>
+        </div>
+        <p class="form-error" id="formError" role="alert" aria-live="polite"></p>
+      </form>
+
+      <section class="history" aria-labelledby="history-heading">
+        <div class="history-title">
+          <h3 id="history-heading">Reports on this device</h3>
+          <button type="button" class="text-button danger" id="clearHistoryButton">Clear history</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+    </section>
+
+    <section class="panel report" id="reportPanel" aria-labelledby="report-heading">
+      <div class="report-toolbar no-print">
+        <div>
+          <p class="eyebrow">Learning diagnostic report</p>
+          <h2 id="report-heading">Sample Student</h2>
+          <p id="reportMeta">HKDSE · Demonstration report</p>
+        </div>
+        <div class="toolbar-actions">
+          <span class="status-chip" id="reportStatus">Demonstration</span>
+          <button class="secondary-button" type="button" id="printButton">Print / Save PDF</button>
+        </div>
+      </div>
+
+      <div class="report-body">
+        <div class="report-title print-only">
+          <p>Chemistry Learning Diagnostic Centre</p>
+          <h1 id="printStudent">Sample Student</h1>
+          <p id="printMeta">HKDSE · Demonstration report</p>
+        </div>
+
+        <section class="overview-card">
+          <p class="section-number">Diagnostic overview</p>
+          <p id="overviewText"></p>
+        </section>
+
+        <section class="report-section strengths-section">
+          <div class="section-heading">
+            <span class="section-icon">✓</span>
+            <div><p>Part 1</p><h3>Strengths analysis</h3></div>
+          </div>
+          <div id="strengthsList" class="stack-list"></div>
+        </section>
+
+        <section class="report-section weaknesses-section">
+          <div class="section-heading">
+            <span class="section-icon">!</span>
+            <div><p>Part 2 · Priority</p><h3>Weakness detection</h3></div>
+          </div>
+          <div id="weaknessesList" class="stack-list"></div>
+        </section>
+
+        <section class="report-section remedy-section">
+          <div class="section-heading">
+            <span class="section-icon">↗</span>
+            <div><p>Part 3</p><h3>Remediation pathway</h3></div>
+          </div>
+          <div id="remediationList" class="stack-list"></div>
+        </section>
+
+        <p class="report-footnote">Preliminary teacher-guided report. Selected PDFs remain local and are not automatically inspected in this public edition.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer no-print">Chemistry Learning Diagnostic Centre · Privacy-first public edition</footer>
+  <script src="./app.js" defer></script>
+</body>
+</html>
