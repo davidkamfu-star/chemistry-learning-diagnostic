@@ -237,7 +237,7 @@ function setProcessing(active,message=""){$("#generateButton").disabled=active;$
 async function checkVisionBackend(){
   const label=$("#visionAvailability"),stage=$("#visionStage"),consent=$("#aiConsent"),consentLabel=$("#aiConsentLabel");visionBackendReady=false;stage.className="analysis-stage";
   if(!visionApiUrl){label.textContent=t("visionNotConnected");stage.classList.add("warning");consent.disabled=true;consentLabel.classList.add("disabled");return;}
-  try{const response=await fetch(visionApiUrl,{method:"GET",mode:"cors",cache:"no-store"});if(!response.ok)throw new Error("Health check failed");visionBackendReady=true;label.textContent=t("visionConnected");stage.classList.add("active");consent.disabled=false;consentLabel.classList.remove("disabled");}
+  try{const response=await fetch(visionApiUrl,{method:"GET",mode:"cors",cache:"no-store"}),health=await response.json();if(!response.ok||!health.modelConfigured)throw new Error("Health check failed");visionBackendReady=true;label.textContent=t("visionConnected");stage.classList.add("active");consent.disabled=false;consentLabel.classList.remove("disabled");}
   catch(error){console.warn("Vision backend unavailable",error);label.textContent=t("visionNotConnected");stage.classList.add("warning");consent.disabled=true;consentLabel.classList.add("disabled");}
 }
 async function callVisionBackend(payload){
