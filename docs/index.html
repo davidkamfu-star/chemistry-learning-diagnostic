@@ -22,13 +22,13 @@
         <button type="button" data-language="en" class="active">English</button>
         <button type="button" data-language="zh-Hant">繁體中文</button>
       </div>
-      <span class="privacy-chip"><span></span> <b data-i18n="privacyMode">Browser-only privacy mode</b></span>
+      <span class="privacy-chip"><span></span> <b data-i18n="privacyMode">Hybrid privacy mode</b></span>
     </div>
   </header>
 
   <div class="privacy-note no-print" role="note">
-    <strong data-i18n="privacyLead">Your PDFs stay on this device.</strong>
-    <span data-i18n="privacyText">This public edition reads selectable PDF text locally in your browser. Files are not uploaded. Scanned images and handwriting require OCR or visual-model review.</span>
+    <strong data-i18n="privacyLead">Local reading first; visual upload only with permission.</strong>
+    <span data-i18n="privacyText">Selectable text and printed-page OCR run in your browser. If you approve visual review, compressed page images are sent temporarily to the configured AI backend; the public site never contains the API key.</span>
   </div>
 
   <main class="workspace">
@@ -98,8 +98,17 @@
               <strong data-i18n="autoReadTitle">Automatic PDF reading</strong>
               <span class="read-status" id="autoReadStatus" data-i18n="autoReadWaiting">Waiting for a PDF</span>
             </div>
-            <p data-i18n="autoReadHelp">Text-based PDFs are read automatically on this device. Detected DSE topics will be added to the report.</p>
+            <p data-i18n="autoReadHelp">The system automatically extracts selectable text, runs OCR on scan-only pages, and can send page images for visual verification of handwriting, ticks, crosses, structures and diagrams.</p>
+            <div class="analysis-route" aria-label="Analysis stages">
+              <div class="analysis-stage" id="textStage"><span>1</span><strong data-i18n="stageText">Text layer</strong><small data-i18n="stageLocal">On device</small></div>
+              <div class="analysis-stage" id="ocrStage"><span>2</span><strong data-i18n="stageOcr">Printed OCR</strong><small data-i18n="stageLocal">On device</small></div>
+              <div class="analysis-stage" id="visionStage"><span>3</span><strong data-i18n="stageVision">Visual AI</strong><small id="visionAvailability" data-i18n="visionChecking">Checking backend</small></div>
+            </div>
             <div id="readResults" class="read-results"></div>
+            <label class="ai-consent" id="aiConsentLabel">
+              <input id="aiConsent" type="checkbox">
+              <span><strong data-i18n="visualConsentTitle">Allow visual AI review when needed</strong><small data-i18n="visualConsentText">Compressed page images may be sent to the secure analysis backend. Use a student code and remove unnecessary personal information.</small></span>
+            </label>
           </div>
         </fieldset>
 
@@ -132,7 +141,7 @@
         </fieldset>
 
         <div class="form-actions">
-          <button class="primary-button" type="submit"><b data-i18n="generateReport">Generate diagnostic report</b> <span>→</span></button>
+          <button class="primary-button" id="generateButton" type="submit"><b data-i18n="generateReport">Generate diagnostic report</b> <span>→</span></button>
           <button class="secondary-button" type="reset" data-i18n="clear">Clear</button>
         </div>
         <p class="form-error" id="formError" role="alert" aria-live="polite"></p>
@@ -209,12 +218,13 @@
           <div id="remediationList" class="stack-list"></div>
         </section>
 
-        <p class="report-footnote" data-i18n="footnote">Selectable PDF text is analysed locally. Scanned images, handwriting, ticks and diagrams that are not encoded as text cannot be interpreted reliably without OCR or a visual model.</p>
+        <p class="report-footnote" data-i18n="footnote">Evidence labels show whether findings came from the PDF text layer, local OCR, teacher input, or visual AI. Low-confidence handwriting is reported as unreadable instead of being guessed.</p>
       </div>
     </section>
   </main>
 
   <footer class="site-footer no-print" data-i18n="footer">Chemistry Learning Diagnostic Centre · Privacy-first public edition</footer>
+  <script src="./config.js"></script>
   <script src="./app.js" defer></script>
 </body>
 </html>

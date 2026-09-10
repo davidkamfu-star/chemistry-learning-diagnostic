@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "docs/**"
+      - "scripts/write-pages-config.mjs"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -26,6 +27,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+      - name: Configure visual-analysis endpoint
+        env:
+          VISION_API_URL: ${{ vars.VISION_API_URL }}
+        run: node scripts/write-pages-config.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
