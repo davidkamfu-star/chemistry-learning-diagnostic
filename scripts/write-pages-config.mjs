@@ -1,7 +1,7 @@
 import { writeFile } from "node:fs/promises";
 
 const config = {
-  visionApiUrl: String(process.env.VISION_API_URL || "").trim(),
+  visionApiUrl: String(process.env.VISION_API_URL || "https://chemistry-learning-diagnostic.vercel.app/api/analyze").trim(),
   maxVisionPages: 30,
   visionPagesPerBatch: 2,
 };

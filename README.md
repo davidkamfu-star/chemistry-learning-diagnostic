@@ -37,8 +37,8 @@ The `backend/` directory is a dependency-free Vercel Function. It never writes u
 3. Add `ALLOWED_ORIGINS=https://davidkamfu-star.github.io`.
 4. Optionally set `OPENAI_MODEL`; the default is `gpt-5.6`.
 5. Deploy and copy the endpoint, for example `https://your-project.vercel.app/api/analyze`.
-6. In GitHub, open **Settings → Secrets and variables → Actions → Variables** and create `VISION_API_URL` with that endpoint.
-7. Run the **Deploy GitHub Pages** workflow again.
+6. Update the fallback endpoint in `docs/config.js` and `scripts/write-pages-config.mjs`, or create the GitHub Actions repository variable `VISION_API_URL` to override it.
+7. Run the **Deploy GitHub Pages** workflow again. This repository is currently connected to `https://chemistry-learning-diagnostic.vercel.app/api/analyze`.
 
 The public page will show **Secure backend ready** when the connection succeeds. Visual review is opt-in for every report. Configure Vercel Firewall/rate limits and OpenAI project spend limits before broad public distribution.
 
