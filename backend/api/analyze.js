@@ -4,6 +4,24 @@ const WINDOW_MS = 15 * 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 30;
 const requestWindows = new Map();
 
+function openAIKeyStatus() {
+  const key = String(process.env.OPENAI_API_KEY || "").trim();
+  if (!key) return { valid: false, issue: "missing_openai_api_key", key: "" };
+  const invalid = !key.startsWith("sk-") || /[^\x21-\x7E]/.test(key) || /^Bearer\s/i.test(key);
+  return invalid
+    ? { valid: false, issue: "invalid_openai_api_key", key: "" }
+    : { valid: true, issue: null, key };
+}
+
+function requireOpenAIKey() {
+  const status = openAIKeyStatus();
+  if (!status.valid) {
+    if (status.issue === "missing_openai_api_key") throw new Error("OPENAI_API_KEY is not configured on the backend.");
+    throw new Error("OPENAI_API_KEY is invalid. In Vercel, enter the raw key beginning with sk- (for example sk-proj-); do not include Bearer, quotes, spaces, or placeholder text.");
+  }
+  return status.key;
+}
+
 const DSE_TOPICS = `I Planet Earth; II Microscopic World I; III Metals; IV Acids and Bases; V Fossil Fuels and Carbon Compounds; VI Microscopic World II; VII Redox Reactions, Chemical Cells and Electrolysis; VIII Chemical Reactions and Energy; IX Rate of Reaction; X Chemical Equilibrium; XI Chemistry of Carbon Compounds; XII Patterns in the Chemical World; XIII Industrial Chemistry; XIV Materials Chemistry; XV Analytical Chemistry.`;
 
 const itemSchema = {
@@ -145,10 +163,10 @@ function outputText(payload) {
 }
 
 async function openAIResponse({ input, schema, schemaName, maxOutputTokens }) {
-  if (!process.env.OPENAI_API_KEY) throw new Error("OPENAI_API_KEY is not configured on the backend.");
+  const apiKey = requireOpenAIKey();
   const response = await fetch("https://api.openai.com/v1/responses", {
     method: "POST",
-    headers: { "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`, "Content-Type": "application/json" },
+    headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: process.env.OPENAI_MODEL || "gpt-5.6",
       input,
@@ -243,7 +261,7 @@ Visual page evidence: ${JSON.stringify(body.pageEvidence).slice(0, 500000)}`;
 export default {
   async fetch(request) {
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(request) });
-    if (request.method === "GET") return json(request, { ok: true, service: "chemistry-diagnostic-vision", modelConfigured: Boolean(process.env.OPENAI_API_KEY) });
+    if (request.method === "GET") { const keyStatus = openAIKeyStatus(); return json(request, { ok: true, service: "chemistry-diagnostic-vision", modelConfigured: keyStatus.valid, configurationIssue: keyStatus.issue }); }
     if (request.method !== "POST") return json(request, { error: "Method not allowed." }, 405);
     const origin = request.headers.get("origin") || "";
     if (origin && !allowedOrigins().includes(origin)) return json(request, { error: "Origin is not allowed." }, 403);
