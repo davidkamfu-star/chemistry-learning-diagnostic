@@ -192,23 +192,45 @@ Context: ${JSON.stringify(body.context || {})}`,
 async function synthesizeReport(body) {
   if (!Array.isArray(body.pageEvidence) || !body.pageEvidence.length) throw new Error("No page evidence was supplied for synthesis.");
   const language = body.language === "zh-Hant" ? "Traditional Chinese (Hong Kong usage)" : "English";
-  const prompt = `You are a senior Chemistry teacher and experienced HKDSE examiner. Create one detailed learning diagnostic report in ${language} from the page evidence below.
+  const prompt = `You are a senior Chemistry teacher and experienced HKDSE examiner. Carefully read all evidence extracted from the uploaded PDFs and create one detailed Learning Diagnostic Report in ${language}.
 
-The marked student paper is the primary source. Original-paper and marking-reference evidence are optional context only. The original paper may be unavailable.
+Input framing:
+- The upload may contain lesson/textbook content, a marked student paper, or both.
+- The marked student paper is the primary evidence for student performance. Read the student's actual responses, handwritten working, ticks, crosses, awarded marks, corrections, diagrams, graphs, structures and teacher comments.
+- The original examination paper and marking reference are optional supporting context. The original paper may be unavailable; the report must still assess the marked paper without inventing missing wording, answers, marks or marking points.
 
-Required report:
-1. Strengths analysis: concepts demonstrably mastered, with question/page evidence, mastery judgement, demonstrated skill and next extension.
-2. Weaknesses and causes of lost marks: exact question, observed response, marker evidence, mark impact, expected idea only when supported, exact knowledge blockage, and whether the main cause is conceptual misunderstanding, carelessness/question reading, calculation logic, equation/notation, scientific-language keywords, or experimental/graph skill. Explain why that classification fits and give correction steps plus a quick diagnostic check.
-3. Remediation: rank the HKDSE topics/subtopics to strengthen. For each give specific keywords, exact formula/rule and its conditions, prerequisite, three practice stages (recall, guided, DSE transfer), spaced review schedule, and a measurable success requirement.
+The report MUST follow exactly these three parts:
 
-Quality rules:
-- Do not infer mastery from the total score alone.
-- Do not turn an unreadable answer into a diagnosis. State the limitation.
-- Do not invent missing question wording, mark allocations, answers or marking points.
-- Cite page/question evidence inside the report text, but do not mention private names.
-- Rank DSE Topics I–XV only when supported. Use the official topic IDs/names: ${DSE_TOPICS}
+1. Strengths Analysis / 強項分析
+Identify the Chemistry concepts the student has demonstrably mastered. For every strength, cite the question/page evidence, state the mastery judgement and demonstrated skill, and give a suitable next extension. Do not infer mastery from the total score alone.
+
+2. Weakness Detection and Causes of Lost Marks / 弱點及失分原因
+This is the priority section. Analyse every supported wrong, crossed, incomplete or partially correct answer. Separate what is visibly observed from the inferred cause. For each item:
+- identify the exact question/page and marks lost when available;
+- quote or accurately describe the student's response and the marker evidence;
+- state the expected Chemistry idea only when supported;
+- decide whether the main cause is conceptual misunderstanding, carelessness/question reading, calculation logic, equation/notation, scientific-language keywords, or experimental/graph skill;
+- explain precisely why that classification fits and name the exact knowledge point where the student became stuck;
+- provide step-by-step correction and one quick diagnostic check.
+If evidence is unreadable or insufficient, state that limitation and use low confidence instead of guessing.
+
+3. Remediation Pathway / 補救路徑
+Rank the HKDSE Chemistry topics and subtopics that need strengthening. Use the official Topic I–XV identifiers and names only when supported: ${DSE_TOPICS}
+For every priority, provide:
+- revision keywords;
+- the exact formula, rule or required scientific wording and its conditions of use;
+- prerequisite knowledge;
+- three practice stages: recall, guided correction of the marked error, and unfamiliar HKDSE exam transfer;
+- a spaced-review schedule; and
+- a measurable success requirement before moving on.
+
+Evidence and language rules:
+- Base every diagnosis on uploaded-file evidence or explicit teacher-entered evidence.
+- Preserve chemical formulae, ionic charges, state symbols, units, significant figures and question references exactly.
+- Cite page/question evidence inside the report but omit private names.
+- Use clear teacher-facing language in the selected report language only.
 - Give 1–6 strengths, 1–10 weaknesses, 1–5 DSE topics and 1–5 remediation priorities.
-- Keep chemical formulae and symbols exact.
+- If the original paper is absent, clearly distinguish verified observations from reasonable but unverified interpretation.
 
 Case context: ${JSON.stringify(body.context || {})}
 Teacher-entered evidence: ${JSON.stringify(body.teacherEvidence || {})}
